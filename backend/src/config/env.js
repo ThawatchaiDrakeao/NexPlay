@@ -17,7 +17,7 @@ const readEnv = () => {
   }
 
   if (nodeEnv === 'production') {
-    ['CORS_ORIGIN', 'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'JWT_SECRET'].forEach((key) => {
+    ['CORS_ORIGIN', 'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'JWT_SECRET', 'LINE_CHANNEL_SECRET'].forEach((key) => {
       if (!process.env[key]) {
         errors.push(`${key} is required in production`);
       }
@@ -37,6 +37,7 @@ const readEnv = () => {
     port,
     corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173',
     jwtSecret: process.env.JWT_SECRET || 'development-only-nexplay-jwt-secret',
+    lineChannelSecret: process.env.LINE_CHANNEL_SECRET,
     supabaseUrl: process.env.SUPABASE_URL,
     supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
     supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY

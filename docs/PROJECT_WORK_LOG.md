@@ -263,3 +263,99 @@ Security review:
 
 Next recommended step:
 - Run migrations `001` to `003` on Supabase staging, then test branch, field, opening-hours and blocked-time APIs against real tenant data.
+
+## Sprint 7: Booking Engine and Payment Foundation
+Status: Completed
+
+Files created:
+- `backend/database/migrations/004_booking_payment.sql`
+- `backend/src/modules/booking/booking.controller.js`
+- `backend/src/modules/booking/booking.service.js`
+- `backend/src/modules/booking/booking.routes.js`
+- `backend/src/modules/payment/payment.controller.js`
+- `backend/src/modules/payment/payment.service.js`
+- `backend/src/modules/payment/payment.routes.js`
+
+Files changed:
+- `backend/src/routes/index.js`
+- `docs/PROJECT_WORK_LOG.md`
+
+Database changes:
+- Added `bookings`, `payments` and `payment_slips`.
+- Added booking and payment status constraints.
+- Added tenant-scoped foreign keys and indexes.
+- Added active booking conflict index for `pending_payment`, `awaiting_approval` and `confirmed`.
+- Enabled Row Level Security for booking/payment tables.
+
+APIs created:
+- `POST /api/bookings`
+- `GET /api/bookings`
+- `GET /api/bookings/:id`
+- `PATCH /api/bookings/:id/cancel`
+- `POST /api/payments/slip`
+- `PATCH /api/payments/:id/approve`
+- `PATCH /api/payments/:id/reject`
+
+Security review:
+- Booking and payment routes require authentication.
+- Booking creation validates tenant field ownership and availability.
+- Booking conflict check rejects overlapping active bookings.
+- Booking read/cancel is limited to customer owner or tenant staff.
+- Payment approval/rejection requires tenant staff role and blocks customer self-approval.
+
+Test results:
+- `node --check` passed for booking/payment modules.
+- Server startup smoke test passed.
+- Unauthorized booking and payment routes returned `401`.
+- Invalid booking input returned `400`.
+- Scope check found no frontend, LINE or dashboard logic.
+- Live conflict and payment approval tests still require Supabase staging data.
+
+Next recommended step:
+- Run migrations `001` to `004` on Supabase staging, then test full create-booking, slip-submit, approve/reject flow with real tenant, field and user roles.
+
+## Final Sprint: Production Demo Integration
+Status: Completed
+
+Files created:
+- `backend/src/modules/line/line.controller.js`
+- `backend/src/modules/line/line.service.js`
+- `backend/src/modules/line/line.routes.js`
+- `backend/src/modules/dashboard/dashboard.controller.js`
+- `backend/src/modules/dashboard/dashboard.service.js`
+- `backend/src/modules/dashboard/dashboard.routes.js`
+
+Files changed:
+- `backend/src/app.js`
+- `backend/src/config/env.js`
+- `backend/src/routes/index.js`
+- `backend/.env.example`
+- `backend/README.md`
+- `docs/PROJECT_WORK_LOG.md`
+
+Summary:
+- Added production demo integration for Supabase readiness, LINE webhook foundation and read-only dashboard summary.
+- Added raw request body capture for LINE signature verification.
+- Added `POST /api/line/webhook`.
+- Added `GET /api/dashboard/summary`.
+- Updated deployment documentation for environment variables, Supabase setup and Render deployment.
+
+Security review:
+- LINE webhook verifies `x-line-signature` before processing events.
+- Webhook logs only event count and event types.
+- Dashboard summary requires authentication and tenant access.
+- Service-role Supabase key remains backend-only.
+- Existing RLS-compatible tenant-scoped queries remain unchanged.
+
+Test results:
+- `node --check` passed for created integration modules.
+- Server startup smoke test passed.
+- Health endpoint returned `200`.
+- LINE webhook invalid signature returned `401`.
+- Dashboard summary without auth returned `401`.
+- Live Supabase migration/database verification still requires staging credentials.
+
+Remaining work:
+- Execute migrations `001` to `004` on Supabase staging.
+- Add real LINE channel secret and test webhook from LINE console.
+- Run end-to-end demo with tenant, field, booking and payment records.

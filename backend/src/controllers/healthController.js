@@ -1,7 +1,29 @@
-const { getHealthStatus } = require('../services/healthService');
+const { checkDatabaseHealth } = require('../services/healthService');
 
-const getHealth = (req, res) => {
-  res.status(200).json(getHealthStatus());
+
+const getHealth = async (req,res)=>{
+  try {
+
+    const database = await checkDatabaseHealth();
+
+    res.status(200).json({
+      status:'ok',
+      service:'nexplay-api',
+      database
+    });
+
+
+  } catch(error){
+
+    res.status(503).json({
+      status:'error',
+      message:error.message
+    });
+
+  }
 };
 
-module.exports = { getHealth };
+
+module.exports = {
+  getHealth
+};

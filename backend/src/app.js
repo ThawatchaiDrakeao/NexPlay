@@ -9,12 +9,27 @@ const { notFoundHandler, errorHandler } = require('./middleware/errorHandler');
 const createApp = () => {
   const app = express();
 
-  app.disable('x-powered-by');
+  app.disable("x-powered-by");
   app.use(helmet());
   app.use(cors(corsOptions));
-  app.use(express.json({ limit: '1mb' }));
 
-  app.use('/api', routes);
+  app.use(express.json({
+    limit: "1mb",
+    verify: (req, res, buffer) => {
+      req.rawBody = buffer.toString("utf8");
+    },
+  }));
+
+  app.get("/health", (req, res) => {
+    res.json({
+      status: "ok",
+      message: "NexPlay API is running",
+      timestamp: new Date().toISOString(),
+    });
+  });
+
+  app.use("/api", routes);
+
   app.use(notFoundHandler);
   app.use(errorHandler);
 
