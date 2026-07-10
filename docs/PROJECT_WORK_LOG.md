@@ -207,3 +207,59 @@ Security review:
 
 Next recommended step:
 - Execute migrations on Supabase staging and run full register/login/create-tenant/read-tenant/update-tenant integration tests against the real database.
+
+## Sprint 6: Venue Management and Availability Foundation
+Status: Completed
+
+Files created:
+- `backend/database/migrations/003_venue_management.sql`
+- `backend/src/modules/branch/branch.controller.js`
+- `backend/src/modules/branch/branch.service.js`
+- `backend/src/modules/branch/branch.routes.js`
+- `backend/src/modules/field/field.controller.js`
+- `backend/src/modules/field/field.service.js`
+- `backend/src/modules/field/field.routes.js`
+- `backend/src/modules/schedule/schedule.controller.js`
+- `backend/src/modules/schedule/schedule.service.js`
+- `backend/src/modules/schedule/schedule.routes.js`
+- `backend/src/modules/availability/availability.service.js`
+
+Files changed:
+- `backend/src/routes/index.js`
+- `docs/PROJECT_WORK_LOG.md`
+
+APIs added:
+- `POST /api/branches`
+- `GET /api/branches`
+- `GET /api/branches/:id`
+- `PATCH /api/branches/:id`
+- `POST /api/fields`
+- `GET /api/fields`
+- `GET /api/fields/:id`
+- `PATCH /api/fields/:id`
+- `POST /api/schedules/opening-hours`
+- `PATCH /api/schedules/opening-hours`
+- `POST /api/schedules/blocked-times`
+
+Database changes:
+- Added `sport_type` support for `fields`.
+- Updated opening-hours schema to support field-level schedules with `field_id`, `open_time` and `close_time`.
+- Updated blocked-time naming to `start_time` and `end_time`.
+- Added indexes for field schedules, sport type and blocked-time ranges.
+
+Test results:
+- `node --check` passed for created modules.
+- Server startup smoke test passed.
+- Unauthorized branch, field and schedule requests returned `401`.
+- Invalid token request returned `401`.
+- Scope check found no frontend, booking or payment logic in changed backend files.
+- Live Supabase migration execution is still required.
+
+Security review:
+- Branch, field and schedule APIs require authentication.
+- Tenant access is verified through `tenant_users`.
+- Create/update operations require `SUPER_ADMIN` or `TENANT_OWNER`.
+- Field and blocked-time operations verify branch/field ownership inside the same tenant.
+
+Next recommended step:
+- Run migrations `001` to `003` on Supabase staging, then test branch, field, opening-hours and blocked-time APIs against real tenant data.
