@@ -49,7 +49,13 @@ const verifyJwt = (token) => {
     throw new HttpError(401, 'Invalid token');
   }
 
-  const payload = JSON.parse(Buffer.from(encodedPayload, 'base64url').toString('utf8'));
+  let payload;
+
+  try {
+    payload = JSON.parse(Buffer.from(encodedPayload, 'base64url').toString('utf8'));
+  } catch (error) {
+    throw new HttpError(401, 'Invalid token');
+  }
 
   if (!payload.exp || payload.exp < Math.floor(Date.now() / 1000)) {
     throw new HttpError(401, 'Token expired');

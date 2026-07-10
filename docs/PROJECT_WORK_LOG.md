@@ -170,3 +170,40 @@ Security review:
 
 Next step:
 - Run migrations against Supabase staging, then implement protected tenant management APIs with repository-level tenant filtering.
+
+## Sprint 5: Tenant Management and Authentication Integration Test
+Status: Completed
+
+Files changed:
+- `backend/src/modules/tenant/tenant.controller.js`
+- `backend/src/modules/tenant/tenant.service.js`
+- `backend/src/modules/tenant/tenant.routes.js`
+- `backend/src/modules/auth/auth.service.js`
+- `backend/src/routes/index.js`
+- `docs/PROJECT_WORK_LOG.md`
+
+Summary:
+- Added protected tenant management routes.
+- Added `POST /api/tenants`, `GET /api/tenants/:id` and `PATCH /api/tenants/:id`.
+- Tenant creation assigns the authenticated user as `TENANT_OWNER`.
+- Tenant read/update verifies tenant ownership from database membership before returning data.
+- Added audit log writes for tenant create and update.
+- Hardened JWT payload parsing to return authentication errors for invalid tokens.
+
+Test results:
+- Static migration verification completed for core and auth migrations.
+- Auth password hashing and JWT code paths reviewed.
+- Server route smoke tests completed: health check, auth invalid input, tenant no-token rejection and invalid-token rejection.
+- Password hash/compare smoke test passed.
+- JWT validation smoke test passed.
+- Scope check found no frontend, booking or payment logic in changed backend files.
+- Live Supabase migration execution is still required because no staging database credentials were available in this workspace.
+
+Security review:
+- Tenant APIs require authentication.
+- Tenant access is checked against `tenant_users`, not only token claims.
+- Cross-tenant access is denied when user membership is missing.
+- Service-role database access remains backend-only.
+
+Next recommended step:
+- Execute migrations on Supabase staging and run full register/login/create-tenant/read-tenant/update-tenant integration tests against the real database.
