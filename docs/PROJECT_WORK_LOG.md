@@ -123,3 +123,50 @@ Review:
 
 Next step:
 - Implement tenant, branch and field repositories after authentication and tenant context strategy are defined.
+
+## Sprint 3.5: Database Verification
+Status: Completed
+
+Files changed:
+- `docs/DATABASE_VERIFICATION.md`
+- `docs/PROJECT_WORK_LOG.md`
+
+Summary:
+- Reviewed `001_core_entities.sql` for PostgreSQL compatibility, UUID generation, foreign keys, constraints, indexes, triggers and Row Level Security.
+- Documented verification checklist, potential issues and production execution requirements.
+
+Test results:
+- Static verification completed.
+- Live PostgreSQL execution is still required in Supabase staging.
+
+## Sprint 4: Authentication and Authorization Foundation
+Status: Completed
+
+Files changed:
+- `backend/database/migrations/002_auth_entities.sql`
+- `backend/src/modules/auth/auth.controller.js`
+- `backend/src/modules/auth/auth.service.js`
+- `backend/src/modules/auth/auth.routes.js`
+- `backend/src/modules/auth/auth.middleware.js`
+- `backend/src/modules/auth/password.js`
+- `backend/src/routes/index.js`
+- `backend/src/config/env.js`
+- `backend/.env.example`
+- `docs/PROJECT_WORK_LOG.md`
+
+Summary:
+- Added auth database entities: `users`, `roles`, `tenant_users` and `audit_logs`.
+- Added password hashing and comparison using Node.js `crypto.scrypt`.
+- Added JWT generation and validation.
+- Added `POST /api/auth/register` and `POST /api/auth/login`.
+- Added authentication, role check and tenant access middleware.
+- Added roles: `SUPER_ADMIN`, `TENANT_OWNER`, `STAFF`, `CUSTOMER`.
+
+Security review:
+- Passwords are stored as salted hashes only.
+- JWT secret is validated in production and must be at least 32 characters when provided.
+- Auth input validation is implemented before database access.
+- Auth errors avoid exposing whether the email or password failed.
+
+Next step:
+- Run migrations against Supabase staging, then implement protected tenant management APIs with repository-level tenant filtering.

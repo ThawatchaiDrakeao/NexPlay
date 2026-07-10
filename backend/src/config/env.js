@@ -17,11 +17,15 @@ const readEnv = () => {
   }
 
   if (nodeEnv === 'production') {
-    ['CORS_ORIGIN', 'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY'].forEach((key) => {
+    ['CORS_ORIGIN', 'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'JWT_SECRET'].forEach((key) => {
       if (!process.env[key]) {
         errors.push(`${key} is required in production`);
       }
     });
+  }
+
+  if (process.env.JWT_SECRET && process.env.JWT_SECRET.length < 32) {
+    errors.push('JWT_SECRET must be at least 32 characters');
   }
 
   if (errors.length > 0) {
@@ -32,6 +36,7 @@ const readEnv = () => {
     nodeEnv,
     port,
     corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    jwtSecret: process.env.JWT_SECRET || 'development-only-nexplay-jwt-secret',
     supabaseUrl: process.env.SUPABASE_URL,
     supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
     supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY
