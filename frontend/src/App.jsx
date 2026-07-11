@@ -81,12 +81,16 @@ function App() {
   // โหลดสนาม
   useEffect(() => {
     const loadFields = async () => {
+      const url = `${API_BASE_URL}/api/public/fields`;
+      console.log("Fetching fields from:", url);
       try {
-        const response = await fetch(`${API_BASE_URL}/api/public/fields`);
+        const response = await fetch(url);
         const data = await response.json();
+        console.log("Fields response:", data);
         setFields(data.fields || []);
         if (data.fields?.length > 0) setFieldId(data.fields[0].id);
       } catch (err) {
+        console.error("Failed to load fields:", err);
         setError("ไม่สามารถโหลดข้อมูลสนามได้");
       } finally {
         setLoading(false);
@@ -99,10 +103,11 @@ function App() {
   useEffect(() => {
     const fetchAvailability = async () => {
       if (fieldId && date) {
-        const response = await fetch(
-          `${API_BASE_URL}/api/public/availability?fieldId=${fieldId}&date=${date}`,
-        );
+        const url = `${API_BASE_URL}/api/public/availability?fieldId=${fieldId}&date=${date}`;
+        console.log("Fetching availability from:", url);
+        const response = await fetch(url);
         const data = await response.json();
+        console.log("Availability response:", data);
         setAvailableSlots(data.slots || []);
       }
     };
@@ -122,13 +127,16 @@ function App() {
       customer,
     };
 
-    const response = await fetch(`${API_BASE_URL}/api/public/bookings`, {
+    const url = `${API_BASE_URL}/api/public/bookings`;
+    console.log("Creating booking at:", url, payload);
+    const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
 
     const result = await response.json();
+    console.log("Booking response:", result);
     if (response.ok) {
       setBookingResult(result.booking?.booking || result.booking);
     }
@@ -144,10 +152,12 @@ function App() {
     // จำลองการอัปโหลด
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    await fetch(`${API_BASE_URL}/api/public/payments/confirm`, {
+    const url = `${API_BASE_URL}/api/public/payments/confirm`;
+    console.log("Confirming payment at:", url, { bookingId: bookingResult?.id });
+    await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ bookingId: bookingResult.id }),
+      body: JSON.stringify({ bookingId: bookingResult?.id }),
     });
 
     setPaymentCompleted(true);
