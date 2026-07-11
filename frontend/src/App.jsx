@@ -34,27 +34,68 @@ function App() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-6 sm:px-6 lg:px-8">
-      <div className="mx-auto flex max-w-6xl flex-col gap-6">
-        <section className="rounded-3xl bg-white p-6 shadow-sm sm:p-8">
-          <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600">
-              NexPlay
-            </p>
-            <h1 className="mt-2 text-3xl font-bold text-gray-900 sm:text-4xl">
-              รายการสนาม
-            </h1>
-            <p className="mt-2 text-sm text-gray-500 sm:text-base">
-              เลือกสนามที่คุณต้องการจองได้ทันที
-            </p>
-          </div>
+    <main
+      style={{
+        minHeight: "100vh",
+        backgroundColor: "#f3f4f6",
+        padding: "24px 16px",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "1100px",
+          margin: "0 auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+        }}
+      >
+        <section
+          style={{
+            backgroundColor: "#ffffff",
+            borderRadius: "24px",
+            padding: "24px",
+            boxShadow: "0 2px 12px rgba(0, 0, 0, 0.06)",
+            textAlign: "center",
+          }}
+        >
+          <p style={{ margin: 0, fontSize: "13px", fontWeight: 700, color: "#2563eb", letterSpacing: "0.2em", textTransform: "uppercase" }}>
+            NexPlay
+          </p>
+          <h1 style={{ margin: "8px 0 6px", fontSize: "32px", fontWeight: 700, color: "#111827" }}>
+            รายการสนาม
+          </h1>
+          <p style={{ margin: 0, fontSize: "15px", color: "#6b7280" }}>
+            เลือกสนามที่คุณต้องการจองได้ทันที
+          </p>
         </section>
 
         {loading && (
-          <div className="flex items-center justify-center rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
-            <div className="text-center">
-              <div className="mx-auto mb-3 h-10 w-10 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
-              <p className="text-sm font-medium text-gray-600">
+          <div
+            style={{
+              backgroundColor: "#ffffff",
+              borderRadius: "20px",
+              padding: "32px",
+              boxShadow: "0 2px 12px rgba(0, 0, 0, 0.05)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <div style={{ textAlign: "center" }}>
+              <div
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  margin: "0 auto 12px",
+                  border: "4px solid #2563eb",
+                  borderTopColor: "transparent",
+                  borderRadius: "50%",
+                  animation: "spin 1s linear infinite",
+                }}
+              ></div>
+              <p style={{ margin: 0, fontSize: "14px", color: "#4b5563" }}>
                 กำลังโหลดข้อมูลสนาม...
               </p>
             </div>
@@ -62,46 +103,117 @@ function App() {
         )}
 
         {error && (
-          <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 shadow-sm">
+          <div
+            style={{
+              backgroundColor: "#fef2f2",
+              border: "1px solid #fecaca",
+              borderRadius: "16px",
+              padding: "14px 16px",
+              color: "#b91c1c",
+              boxShadow: "0 1px 6px rgba(0,0,0,0.04)",
+            }}
+          >
             {error}
           </div>
         )}
 
         {!loading && !error && fields.length === 0 && (
-          <div className="rounded-2xl border border-dashed border-gray-300 bg-white p-8 text-center text-gray-500 shadow-sm">
+          <div
+            style={{
+              backgroundColor: "#ffffff",
+              borderRadius: "20px",
+              padding: "32px",
+              boxShadow: "0 2px 12px rgba(0, 0, 0, 0.05)",
+              textAlign: "center",
+              color: "#6b7280",
+            }}
+          >
             ไม่มีข้อมูลสนามในตอนนี้
           </div>
         )}
 
         {!loading && !error && fields.length > 0 && (
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <div
+            style={{
+              display: "grid",
+              gap: "16px",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+            }}
+          >
             {fields.map((field) => (
               <div
                 key={field.id}
-                className="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-lg shadow-gray-200/70"
+                style={{
+                  backgroundColor: "#ffffff",
+                  borderRadius: "20px",
+                  padding: "20px",
+                  boxShadow: "0 8px 24px rgba(0, 0, 0, 0.08)",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
               >
-                <div className="mb-4 flex items-center justify-between">
-                  <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "12px",
+                  }}
+                >
+                  <span
+                    style={{
+                      backgroundColor: "#eff6ff",
+                      color: "#2563eb",
+                      borderRadius: "999px",
+                      padding: "6px 10px",
+                      fontSize: "12px",
+                      fontWeight: 700,
+                    }}
+                  >
                     {field.sport_type || field.sportType || "กีฬา"}
                   </span>
-                  <span className="text-xs text-gray-400">#{field.code || "-"}</span>
+                  <span style={{ fontSize: "12px", color: "#9ca3af" }}>
+                    #{field.code || "-"}
+                  </span>
                 </div>
 
-                <h2 className="text-xl font-bold text-gray-900">
+                <h2 style={{ margin: 0, fontSize: "20px", fontWeight: 700, color: "#111827" }}>
                   {field.name || "สนามไม่ระบุชื่อ"}
                 </h2>
-                <p className="mt-2 text-sm text-gray-500">
+                <p style={{ margin: "8px 0 0", fontSize: "14px", color: "#6b7280" }}>
                   สนามสำหรับการเล่นกีฬาและจองเวลาได้ทันที
                 </p>
 
-                <div className="mt-5 flex items-center justify-between text-sm text-gray-600">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginTop: "16px",
+                    fontSize: "14px",
+                    color: "#4b5563",
+                  }}
+                >
                   <span>ความจุ</span>
-                  <span className="font-semibold text-gray-900">
+                  <span style={{ fontWeight: 700, color: "#111827" }}>
                     {field.capacity || "-"}
                   </span>
                 </div>
 
-                <button className="mt-6 w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700">
+                <button
+                  style={{
+                    marginTop: "18px",
+                    width: "100%",
+                    border: "none",
+                    borderRadius: "12px",
+                    padding: "12px 14px",
+                    backgroundColor: "#2563eb",
+                    color: "#ffffff",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    boxShadow: "0 4px 12px rgba(37, 99, 235, 0.25)",
+                  }}
+                >
                   จอง
                 </button>
               </div>
