@@ -3,6 +3,7 @@ import "./App.css";
 
 // ใช้ LIFF ID ที่เราเพิ่งสร้างสำเร็จครับ
 const LIFF_ID = "2010674830-XvD2Fo0d";
+const API_BASE_URL = "https://nexplay-backend-eoa4.onrender.com";
 
 const formatTime = (timeStr) => {
   if (!timeStr) return "";
@@ -81,7 +82,7 @@ function App() {
   useEffect(() => {
     const loadFields = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/public/fields");
+        const response = await fetch(`${API_BASE_URL}/api/public/fields`);
         const data = await response.json();
         setFields(data.fields || []);
         if (data.fields?.length > 0) setFieldId(data.fields[0].id);
@@ -99,7 +100,7 @@ function App() {
     const fetchAvailability = async () => {
       if (fieldId && date) {
         const response = await fetch(
-          `http://localhost:5000/api/public/availability?fieldId=${fieldId}&date=${date}`,
+          `${API_BASE_URL}/api/public/availability?fieldId=${fieldId}&date=${date}`,
         );
         const data = await response.json();
         setAvailableSlots(data.slots || []);
@@ -121,7 +122,7 @@ function App() {
       customer,
     };
 
-    const response = await fetch("http://localhost:5000/api/public/bookings", {
+    const response = await fetch(`${API_BASE_URL}/api/public/bookings`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -143,7 +144,7 @@ function App() {
     // จำลองการอัปโหลด
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    await fetch("http://localhost:5000/api/public/payments/confirm", {
+    await fetch(`${API_BASE_URL}/api/public/payments/confirm`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ bookingId: bookingResult.id }),
