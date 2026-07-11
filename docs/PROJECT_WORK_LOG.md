@@ -317,6 +317,14 @@ Next recommended step:
 ## Final Sprint: Production Demo Integration
 Status: Completed
 
+### Frontend booking flow fix
+- Updated the React booking experience in `frontend/src/App.jsx` to make the booking button open a real booking view.
+- Wired the booking view to the public availability API using the actual backend endpoint `GET /api/public/availability`.
+- Added loading, empty, error and selection states for real availability data.
+- Prevented booking confirmation until a slot is selected.
+- Verified the frontend builds successfully and lint issues were resolved.
+
+
 Files created:
 - `backend/src/modules/line/line.controller.js`
 - `backend/src/modules/line/line.service.js`
