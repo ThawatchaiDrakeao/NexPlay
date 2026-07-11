@@ -6,7 +6,9 @@ const listPublicFields = async () => {
 
   const { data, error } = await db
     .from("fields")
-    .select("id, branch_id, name, code, sport_type, capacity, status")
+    .select(
+      "id, tenant_id, branch_id, name, code, sport_type, capacity, status",
+    )
     .eq("status", "active")
     .order("name", { ascending: true });
 

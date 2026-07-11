@@ -34,7 +34,14 @@ Response:
 - `SUPABASE_ANON_KEY`: Supabase anon key
 - `SUPABASE_SERVICE_ROLE_KEY`: Supabase service role key for trusted backend operations
 - `JWT_SECRET`: JWT signing secret, at least 32 characters
-- `LINE_CHANNEL_SECRET`: LINE Messaging API channel secret
+- `LINE_CHANNEL_ID`: LINE channel ID used to verify LIFF/LINE ID tokens
+- `LINE_CHANNEL_SECRET`: LINE Messaging API channel secret; keep this only in backend runtime
+- `LINE_CHANNEL_ACCESS_TOKEN`: LINE Messaging API access token; keep this only in backend runtime
+
+Security note:
+
+- Do not put LINE channel secrets or Supabase service-role keys into the frontend environment.
+- Only the backend should verify LINE ID tokens and exchange them for a NexPlay JWT.
 
 ## Supabase Setup
 
@@ -48,6 +55,7 @@ Run migrations in order:
 ```
 
 Production requirements:
+
 - Enable `pgcrypto`.
 - Keep RLS enabled.
 - Use service-role key only in the backend runtime.
