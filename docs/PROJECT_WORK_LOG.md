@@ -359,3 +359,24 @@ Remaining work:
 - Execute migrations `001` to `004` on Supabase staging.
 - Add real LINE channel secret and test webhook from LINE console.
 - Run end-to-end demo with tenant, field, booking and payment records.
+
+## Database Foundation Finalization
+Status: Completed
+
+Files created:
+- `backend/supabase/migrations/20260711000000_add_booking_indexes.sql`
+
+Files changed:
+- `docs/PROJECT_WORK_LOG.md`
+- `docs/TASKS.md`
+
+Summary:
+- Database foreign key validation completed for tenant, booking and payment hierarchy.
+- Confirmed existing tenant-scoped composite foreign keys enforce `tenants -> branches -> fields`, field-level schedules/blocks/bookings and booking-linked payments.
+- Booking indexes added for availability, blocked-time lookup and payment lookup.
+- Database foundation ready for Booking Module.
+
+Review:
+- No unrelated business logic was changed.
+- Existing schema definitions were not rewritten.
+- New indexes are idempotent with `create index if not exists`.

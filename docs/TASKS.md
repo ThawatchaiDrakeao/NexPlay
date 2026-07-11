@@ -16,38 +16,45 @@
 - [x] Update project work log
 
 ## Tenant Management
-- [ ] Design tenant data model
+- [x] Design tenant data model
 - [ ] Define tenant configuration
 - [ ] Define tenant onboarding workflow
 - [ ] Define tenant isolation tests
 
 ## Branch and Field Management
-- [ ] Design branch schema
-- [ ] Design field schema
-- [ ] Define opening hours model
-- [ ] Define blocked time model
+- [x] Design branch schema
+- [x] Design field schema
+- [x] Define opening hours model
+- [x] Define blocked time model
 - [ ] Define field active/inactive workflow
 
 ## Pricing and Availability
 - [ ] Design pricing rules
 - [ ] Define day type and time range pricing
-- [ ] Define availability calculation
-- [ ] Define booking conflict prevention
+- [x] Define availability calculation
+- [x] Define booking conflict prevention
 - [ ] Define booking expiration policy
 
 ## Booking Engine
-- [ ] Design booking status lifecycle
-- [ ] Design booking slot records
-- [ ] Define booking creation transaction
+- [x] Design booking status lifecycle
+- [x] Design booking slot records
+- [x] Define booking creation transaction
 - [ ] Define cancellation policy
 - [ ] Define admin manual booking flow
 
 ## Payment
 - [ ] Define PromptPay QR generation
-- [ ] Define payment record schema
+- [x] Define payment record schema
 - [ ] Define slip upload flow
 - [ ] Define approval and rejection workflow
 - [ ] Define payment audit requirements
+
+## Database Foundation
+- [x] Validate tenant, booking and payment foreign key hierarchy
+- [x] Add booking availability indexes
+- [x] Add blocked-time lookup index
+- [x] Add payment lookup index
+- [x] Confirm database foundation is ready for Booking Module
 
 ## LINE Integration
 - [ ] Define LINE channel to tenant mapping

@@ -10,7 +10,7 @@ const bookingRoutes = require('../modules/booking/booking.routes');
 const paymentRoutes = require('../modules/payment/payment.routes');
 const lineRoutes = require('../modules/line/line.routes');
 const dashboardRoutes = require('../modules/dashboard/dashboard.routes');
-
+const publicRoutes = require('../modules/public/public.routes');
 const router = express.Router();
 
 router.use(healthRoutes);
@@ -23,5 +23,6 @@ router.use('/bookings', bookingRoutes);
 router.use('/payments', paymentRoutes);
 router.use('/line', lineRoutes);
 router.use('/dashboard', dashboardRoutes);
+router.use('/public', publicRoutes);
 
 module.exports = router;
