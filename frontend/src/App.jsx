@@ -34,31 +34,76 @@ function App() {
   }, []);
 
   return (
-    <main className="app-shell">
-      <div className="app-container">
-        <h1>รายการสนาม</h1>
-        <p>ข้อมูลสนามจากระบบ NexPlay</p>
+    <main className="min-h-screen bg-gray-50 px-4 py-6 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-6xl flex-col gap-6">
+        <section className="rounded-3xl bg-white p-6 shadow-sm sm:p-8">
+          <div className="text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600">
+              NexPlay
+            </p>
+            <h1 className="mt-2 text-3xl font-bold text-gray-900 sm:text-4xl">
+              รายการสนาม
+            </h1>
+            <p className="mt-2 text-sm text-gray-500 sm:text-base">
+              เลือกสนามที่คุณต้องการจองได้ทันที
+            </p>
+          </div>
+        </section>
 
-        {loading && <p>กำลังโหลดข้อมูลสนาม...</p>}
+        {loading && (
+          <div className="flex items-center justify-center rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
+            <div className="text-center">
+              <div className="mx-auto mb-3 h-10 w-10 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
+              <p className="text-sm font-medium text-gray-600">
+                กำลังโหลดข้อมูลสนาม...
+              </p>
+            </div>
+          </div>
+        )}
 
-        {error && <div className="error-message">{error}</div>}
+        {error && (
+          <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 shadow-sm">
+            {error}
+          </div>
+        )}
 
         {!loading && !error && fields.length === 0 && (
-          <p>ไม่มีข้อมูลสนามในตอนนี้</p>
+          <div className="rounded-2xl border border-dashed border-gray-300 bg-white p-8 text-center text-gray-500 shadow-sm">
+            ไม่มีข้อมูลสนามในตอนนี้
+          </div>
         )}
 
         {!loading && !error && fields.length > 0 && (
-          <div className="field-list">
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {fields.map((field) => (
-              <div className="field-card" key={field.id}>
-                <h3>{field.name || "สนามไม่ระบุชื่อ"}</h3>
-                <p>
-                  <strong>ประเภทกีฬา:</strong>{" "}
-                  {field.sport_type || field.sportType || "-"}
+              <div
+                key={field.id}
+                className="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-lg shadow-gray-200/70"
+              >
+                <div className="mb-4 flex items-center justify-between">
+                  <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
+                    {field.sport_type || field.sportType || "กีฬา"}
+                  </span>
+                  <span className="text-xs text-gray-400">#{field.code || "-"}</span>
+                </div>
+
+                <h2 className="text-xl font-bold text-gray-900">
+                  {field.name || "สนามไม่ระบุชื่อ"}
+                </h2>
+                <p className="mt-2 text-sm text-gray-500">
+                  สนามสำหรับการเล่นกีฬาและจองเวลาได้ทันที
                 </p>
-                <p>
-                  <strong>Code:</strong> {field.code || "-"}
-                </p>
+
+                <div className="mt-5 flex items-center justify-between text-sm text-gray-600">
+                  <span>ความจุ</span>
+                  <span className="font-semibold text-gray-900">
+                    {field.capacity || "-"}
+                  </span>
+                </div>
+
+                <button className="mt-6 w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700">
+                  จอง
+                </button>
               </div>
             ))}
           </div>
